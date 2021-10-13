@@ -17,12 +17,9 @@
   <li class="nav-item">
     <a class="nav-link active" href="index.html">List</a>
   </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">Edit</a>
-  </li>
-  
 </ul>
-    <input id="search_form" type="text" class="form-control form" placeholder="Type something..." aria-label="Username" aria-describedby="basic-addon1">
+    <input id="search_form" type="text" class="form-control" style="height: 2rem;width: 12rem;margin: 10px"
+           placeholder="Type something..." aria-label="Username" aria-describedby="basic-addon1">
         <button id="search_button" type="button" class="btn btn-outline-primary btn-sm button">Search</button>
         <button id="search_form_clean" type="button" class="btn btn-outline-danger btn-sm button">Clear</button>
     </container>
@@ -32,6 +29,30 @@
       <h1 class="navbar-brand header-title">
     Manage Insects
           </h1>
+          <h5>
+              Create/Edit
+          </h5>
+          <div>Name:
+              <label>
+                  <input id="name_form" type="text" class="form-control form" placeholder="Type something..." >
+              </label>
+          </div>
+          <div>Description:
+              <label>
+                  <input id="desc_form" type="text" class="form-control form" placeholder="Type something..." >
+              </label>
+          </div>
+          <div>Speed:
+              <label>
+                  <input id="speed_form" type="number" value="0" step="1" class="form-control form">
+              </label>
+          </div>
+          <div>Mass:
+              <label>
+                  <input id="mass_form" type="number" value="0" class="form-control form">
+              </label>
+          </div>
+          <button id="submit_button" type="button" class="btn btn-primary btn-sm button">Submit</button>
         <div>Sort by speed</div>
           <label for="sort_speed"></label><input id="sort_speed" type="checkbox">
           <hr>
