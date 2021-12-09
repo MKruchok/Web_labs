@@ -1,0 +1,14 @@
+{
+  "name": "web_lab_3",
+  "version": "1.0.0",
+  "description": "- CRUD Javascript App: Create/Edit/Update/Delete",
+  "main": "js/index.js",
+  "scripts": {
+    "start": "npx browser-sync start --server --files ."
+  },
+  "author": "Phlake",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5"
+  }
+}

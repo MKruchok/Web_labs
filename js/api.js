@@ -1,27 +1,34 @@
-var INSECTS = [
-    { id:1, name:'Lorem ipsum-1', desc:'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', speed:12, mass:7 },
-    { id:2, name:'Lorem ipsum-2', desc:'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', speed:11, mass:100 },
-    { id:3, name:'Lorem ipsum-3', desc:'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', speed:9, mass:6 },
-    { id:4, name:'Lorem ipsum-4', desc:'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', speed:10, mass:70 },
-    { id:5, name:'Lorem ipsum-5', desc:'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', speed:11, mass:80 },
-    { id:6, name:'Lorem ipsum-6', desc:'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', speed:12, mass:163 },
-    { id:7, name:'Lorem ipsum-7', desc:'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', speed:9, mass:126 },
-    { id:8, name:'Lorem ipsum-8', desc:'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', speed:11, mass:138 },
-    { id:9, name:'Lorem ipsum-9', desc:'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', speed:10, mass:74 },
-    { id:10, name:'Lorem ipsum-10', desc:'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', speed:10, mass:54 },
-    { id:11, name:'Lorem ipsum-11', desc:'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', speed:9, mass:189 }
-]
+const BASE_URL = "http://localhost:5000/api";
+const RESOURCE_URL = `${BASE_URL}/insects`;
 
-export const getInsects = () => INSECTS
+const baseRequest = async ({ urlPath = "", method = "GET", body = null }) => {
+    try {
+        const reqParams = {
+            method,
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body
+        };
 
-export const postInsect = (data) => {
-    INSECTS.push(data)
-}
+        if (body) {
+            reqParams.body = JSON.stringify(body);
+        }
 
-export const updateInsect = (id, data) => {
-    var index = INSECTS.findIndex(index => index.id == id);
-    INSECTS[index].name = data.name;
-    INSECTS[index].desc = data.desc;
-    INSECTS[index].speed = data.speed;
-    INSECTS[index].mass = data.mass;
-}
+        return await fetch(`${RESOURCE_URL}${urlPath}`, reqParams);
+    } catch (error) {
+        console.error("HTTP ERROR: ", error);
+    }
+};
+
+
+export const getAllInsects = async () => {
+    const rawResponse = await baseRequest({ method: "GET" })
+    return rawResponse.json();
+};
+
+export const postInsect = (body) => baseRequest({ method: "POST", body });
+
+export const updateInsect = (id, body) => baseRequest({ urlPath: `/${id}`, method: "PATCH", body });
+
+export const deleteInsect = (id) => baseRequest({ urlPath: `/${id}`, method: "DELETE" });

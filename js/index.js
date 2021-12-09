@@ -1,6 +1,5 @@
-import {EDIT_PREFIX, renderItemsList} from "./dom.js"
-import {getInsects, updateInsect} from "./api.js";
-import { postInsect } from "./api.js";
+import {EDIT_PREFIX, REMOVE_PREFIX, renderItemsList} from "./dom.js"
+import {getAllInsects, updateInsect, postInsect, deleteInsect} from "./api.js";
 import {clearInputs, getInputValues} from "./dom.js";
 
 const searchButton = document.getElementById("search_button");
@@ -14,12 +13,10 @@ const allInputs = document.getElementsByClassName("form");
 
 let insects = [];
 
-export const refetchInsects = () => {
-    const Insects = getInsects();
-
+export const fetchInsects = async () => {
+    const Insects = await getAllInsects();
     insects = Insects.sort((a, b) =>b.name.localeCompare(a.name));
-
-    renderItemsList(insects, onEdit);
+    renderItemsList(insects, onEdit, onDelete);
 };
 
 const validateInput = () => {
@@ -27,27 +24,34 @@ const validateInput = () => {
         alert("Not all fields are filled.");
         return false;
     }
+    return true;
 }
 
-const onEdit = (event) => {
+const onDelete = async (event) => {
+    const itemId = event.target.id.replace(REMOVE_PREFIX, "");
+    await deleteInsect(itemId);
+    fetchInsects();
+}
+
+const onEdit = async (event) => {
     if (validateInput() === false){
         return;
     }
     const itemId = event.target.id.replace(EDIT_PREFIX, "");
-    updateInsect(itemId, getInputValues());
+    await updateInsect(itemId, getInputValues());
     clearInputs();
-    refetchInsects();
+    fetchInsects();
 }
 
 searchButton.addEventListener("click", () => {
     const foundInsects = insects.filter(
         (insect) => insect.name.search(searchInput.value) !== -1);
 
-    renderItemsList(foundInsects, onEdit);
+    renderItemsList(foundInsects, onEdit, onDelete());
 });
 
 clearSearchButton.addEventListener("click", () => {
-    renderItemsList(insects, onEdit);
+    renderItemsList(insects, onEdit, onDelete());
 
     searchInput.value = "";
 });
@@ -57,10 +61,10 @@ sortCheckbox.addEventListener("change", function () {
         const sortedInsects = insects.sort(
             (a, b) => parseFloat(a.speed) - parseFloat(b.speed));
 
-        renderItemsList(sortedInsects, onEdit);
+        renderItemsList(sortedInsects, onEdit, onDelete());
     }
     else {
-        refetchInsects();
+        fetchInsects();
     }
 });
 
@@ -70,14 +74,15 @@ countButton.addEventListener("click", () => {
     console.log(sum);
 });
 
-submitButton.addEventListener("click", (event) => {
+submitButton.addEventListener("click", async (event) => {
+    event.preventDefault();
     if (validateInput() === false){
         return;
     }
     const {name,desc,speed,mass} = getInputValues();
     clearInputs();
-    postInsect({name,desc,speed,mass});
-    refetchInsects();
+    await postInsect({name, desc, speed, mass});
+    fetchInsects();
 });
 
-refetchInsects();
+fetchInsects();

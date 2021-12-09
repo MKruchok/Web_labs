@@ -21,21 +21,23 @@ const itemTemplate = ({ id, name, desc, speed, mass }) => `
 </li>
 `;
 
-export const addItemToPage = ({ id, name, desc, speed, mass }, onEdit) => {
+export const addItemToPage = ({ _id: id, name, desc, speed, mass }, onEdit, onDelete) => {
   itemsContainer.insertAdjacentHTML(
     "afterbegin",
     itemTemplate({ id, name,desc, speed, mass })
   );
 
   const editButton = document.getElementById(`${EDIT_PREFIX}${id}`);
-  editButton.addEventListener("click", onEdit)
+  editButton.addEventListener("click", onEdit);
+  const deleteButton = document.getElementById(`${REMOVE_PREFIX}${id}`);
+  deleteButton.addEventListener("click", onDelete);
 };
 
-export const renderItemsList = (items, onEdit) => {
+export const renderItemsList = (items, onEdit, onDelete) => {
   itemsContainer.innerHTML = "";
 
   for (const item of items) {
-    addItemToPage(item, onEdit);
+    addItemToPage(item, onEdit, onDelete);
   }
 };
 
